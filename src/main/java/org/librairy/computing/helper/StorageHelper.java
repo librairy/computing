@@ -19,6 +19,8 @@ public interface StorageHelper {
 
     boolean deleteIfExists(String path);
 
+    boolean create(String path);
+
     boolean save (String path, File file);
 
     boolean exists(String path);

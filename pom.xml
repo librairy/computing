@@ -4,7 +4,7 @@
 
 	<groupId>org.librairy</groupId>
     <artifactId>librairy-computing</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.3</version>
     <packaging>jar</packaging>
     <name>computing</name>
     <description>module for cluster computing</description>
@@ -51,20 +51,16 @@
         <maven.resources.plugin.version>2.7</maven.resources.plugin.version>
 
         <!-- Project Dependencies -->
-        <spring.data.cassandra.version>1.4.1.RELEASE</spring.data.cassandra.version><!-- spring-data-cassandra --><!-- 1.4.1.RELEASE -->
-        <cassandra.driver.core.version>2.1.9</cassandra.driver.core.version> <!-- cassandra-driver-core --><!-- 2.1.9 -->
-        <cassandra.driver.dse.version>2.1.9</cassandra.driver.dse.version> <!-- cassandra-driver-dse --><!-- 2.1.9 -->
-        <cassandra.spark.version>1.5.0-M1</cassandra.spark.version><!-- spark-cassandra-connector_2.10 --><!-- 1.5.0-M1 -->
-        <cassandra.spark.java.version>1.5.0</cassandra.spark.java.version> <!-- spark-cassandra-connector-java_2.10 --><!-- 1.5.0-M1 -->
-        <spark.version>1.5.2</spark.version><!-- 1.5.2 -->
-
         <asm.version>5.0.4</asm.version>
         <apache.commons.lang.version>3.0</apache.commons.lang.version>
         <beanutils.version>1.9.2</beanutils.version>
         <camel.euia.version>1.0.0</camel.euia.version>
         <camel.oaipmh.version>1.0.5</camel.oaipmh.version>
         <camel.version>2.15.2</camel.version>
-
+        <cassandra.driver.core.version>3.0.3</cassandra.driver.core.version><!-- 2.1.9 -->
+        <cassandra.driver.dse.version>3.0.0-rc1</cassandra.driver.dse.version><!-- 2.1.9 -->
+        <cassandra.spark.version>1.6.0-M1</cassandra.spark.version><!-- 1.5.0-M1 -->
+        <cassandra.spark.java.version>1.5.0</cassandra.spark.java.version>
         <cloning.version>1.9.1</cloning.version>
         <coreNlpExtensions.version>1.0</coreNlpExtensions.version>
         <commons.lang.version>2.6</commons.lang.version>
@@ -113,15 +109,15 @@
         <servlet.api.version>2.4</servlet.api.version>
         <slf4j.version>1.7.12</slf4j.version>
         <solr.version>5.4.0</solr.version>
-
+        <spark.version>1.6.2</spark.version><!-- 1.5.2 -->
         <springboot.version>1.2.1.RELEASE</springboot.version>
         <spring.data.commons.version>1.12.0.M1</spring.data.commons.version>
         <spring.data.jpa.version>1.10.0.M1</spring.data.jpa.version>
-
+        <spring.data.cassandra.version>1.5.0.M1</spring.data.cassandra.version><!-- 1.4.1.RELEASE -->
         <spring.data.elasticsearch.version>1.4.0.M1</spring.data.elasticsearch.version>
         <spring.data.neo4j.version>4.1.0.M1</spring.data.neo4j.version>
         <spring.data.neo4j.ogm.version>2.0.0-M03</spring.data.neo4j.ogm.version>
-        <spring.version>4.1.9.RELEASE</spring.version>
+        <spring.version>4.2.7.RELEASE</spring.version><!-- 4.1.9.RELEASE -->
         <snappy.version>1.1.2</snappy.version>
         <stanford.version>3.5.2</stanford.version>
         <stanford.parser.version>1.0</stanford.parser.version>
@@ -926,11 +922,7 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-mllib_2.10</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.jblas</groupId>
-            <artifactId>jblas</artifactId>
-            <version>1.2.4</version>
-        </dependency>
+
 
         <!-- Spring Web -->
         <dependency>

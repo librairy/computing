@@ -57,8 +57,17 @@ public class LocalFSStorage extends AbstractStorage {
     public boolean deleteIfExists(String path) {
         try {
             Path folder = Paths.get(path);
-
             FileUtils.deleteDirectory(folder.toFile());
+            return true;
+        } catch (IOException e) {
+            LOG.warn("Error deleting/creating folder at: " + path,e);
+            return false;
+        }
+    }
+
+    public boolean create(String path) {
+        try {
+            Path folder = Paths.get(path);
             Files.createDirectories(folder);
             return true;
         } catch (IOException e) {

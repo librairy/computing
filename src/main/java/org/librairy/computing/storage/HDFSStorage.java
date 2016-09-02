@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.permission.FsPermission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
@@ -82,6 +83,24 @@ public class HDFSStorage extends AbstractStorage {
             if (hdfs.exists(remoteFile)) {
                 hdfs.delete(remoteFile, true);
             }
+
+            hdfs.close();
+        } catch (IOException | URISyntaxException e) {
+            LOG.warn("Error deleting file: " + path,e);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean create(String path) {
+        Configuration conf = new Configuration();
+
+        try {
+            FileSystem hdfs = FileSystem.get(new URI( endpoint ), conf);
+
+            Path remoteFile = new Path(path);
+            hdfs.mkdirs(remoteFile, FsPermission.getDirDefault());
 
             hdfs.close();
         } catch (IOException | URISyntaxException e) {
