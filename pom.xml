@@ -4,7 +4,7 @@
 
 	<groupId>org.librairy</groupId>
     <artifactId>librairy-computing</artifactId>
-    <version>0.10</version>
+    <version>0.11-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>computing</name>
     <description>module for cluster computing</description>
