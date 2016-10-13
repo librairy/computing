@@ -68,18 +68,18 @@ public class MesosClusterHelper extends AbstractSparkHelper {
         String homePath     = storageHelper.getHome();
         LOG.info("librairy home=" + homePath);
 
-//        try {
-//            String extension = OSHelper.isMac()? "dylib" : "so";
-//            String nativeLibPath = homePath + "lib/libmesos." + extension;
-//            LOG.info("loading MESOS_NATIVE_LIB from: " + storageHelper.absolutePath(nativeLibPath));
-//            File nativeLib = storageHelper.read(nativeLibPath);
-//            LOG.debug("Native lib: " + nativeLib.getAbsolutePath());
+        try {
+            String extension = OSHelper.isMac()? "dylib" : "so";
+            String nativeLibPath = homePath + "lib/libmesos." + extension;
+            LOG.info("loading MESOS_NATIVE_LIB from: " + storageHelper.absolutePath(nativeLibPath));
+            File nativeLib = storageHelper.read(nativeLibPath);
+            LOG.debug("Native lib: " + nativeLib.getAbsolutePath());
 
-            File nativeLib = new File("/Users/cbadenes/Downloads/mesos-0.28.1/build/src/.libs/libmesos.dylib");
+//            File nativeLib = new File("/Users/cbadenes/Downloads/mesos-0.28.1/build/src/.libs/libmesos.dylib");
             MesosNativeLibrary.load(nativeLib.getAbsolutePath());
-//        } catch (URISyntaxException | IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        } catch (URISyntaxException | IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
         String sparkPath    = storageHelper.absolutePath(homePath+"lib/"+sparkPackage+".tgz");
