@@ -55,11 +55,19 @@ public class HDFSStorageTest {
     @Test
     public void save(){
 
-        File file = new File("/Users/cbadenes/Projects/librairy/distribution/target/librairy-dependencies.jar");
+//        String input = "/Users/cbadenes/Projects/librairy/distribution/target/librairy-dependencies.jar";
+//        String output = "/librairy/lib/librairy-dependencies.jar";
 
+//        String input = "/Users/cbadenes/Downloads/mesos-0.28.1/build/src/.libs/libmesos-0.28.1.dylib";
+//        String output = "/librairy/lib/libmesos.dylib";
+
+        String input = "/Users/cbadenes/Downloads/spark-1.6.2-bin-hadoop2.6.tgz";
+        String output = "/librairy/lib/spark-1.6.2-bin-hadoop2.6.tgz";
+
+
+        File file = new File(input);
         System.out.println(file.exists());
-
-        storageHelper.save("/librairy/lib/librairy-dependencies.jar", file);
+        storageHelper.save(output, file);
 
     }
 
@@ -67,19 +75,22 @@ public class HDFSStorageTest {
     @Test
     public void deleteIfExists(){
 
-        storageHelper.deleteIfExists("/librairy/lib/librairy-dependencies.jar");
+        //storageHelper.deleteIfExists("/librairy/lib/librairy-dependencies.jar");
+        //storageHelper.deleteIfExists("/librairy/lib/libmesos.dylib");
+        storageHelper.deleteIfExists("/librairy/lib/spark-1.5.2-bin-hadoop2.6.tgz");
 
     }
 
     @Test
     public void read() throws IOException, URISyntaxException {
 
-        File file = storageHelper.read("/librairy/domains/4f56ab24bb6d815a48b8968a3b157470/stopwords.txt");
+        //File file = storageHelper.read("/librairy/domains/4f56ab24bb6d815a48b8968a3b157470/stopwords.txt");
+        File file = storageHelper.read("/librairy/lib/libmesos.dylib");
 
         LOG.info("File Path: " + file);
 
-        String content = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
-        System.out.println(content);
+//        String content = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
+//        System.out.println(content);
 
     }
 

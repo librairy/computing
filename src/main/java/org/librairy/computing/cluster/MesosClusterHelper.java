@@ -75,7 +75,6 @@ public class MesosClusterHelper extends AbstractSparkHelper {
             File nativeLib = storageHelper.read(nativeLibPath);
             LOG.debug("Native lib: " + nativeLib.getAbsolutePath());
 
-//            File nativeLib = new File("/Users/cbadenes/Downloads/mesos-0.28.1/build/src/.libs/libmesos.dylib");
             MesosNativeLibrary.load(nativeLib.getAbsolutePath());
         } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);
