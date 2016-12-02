@@ -8,6 +8,7 @@
 package org.librairy.computing.cluster;
 
 import org.apache.spark.SparkConf;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 
@@ -20,9 +21,12 @@ import org.springframework.stereotype.Component;
 @Conditional(LocalClusterCondition.class)
 public class LocalClusterHelper extends AbstractSparkHelper {
 
+    @Value("#{environment['LIBRAIRY_COMPUTING_CLUSTER']?:'${librairy.computing.cluster}'}")
+    private String master;
+
     @Override
     protected String getMaster() {
-        return "local[*]";
+        return master;
     }
 
     @Override

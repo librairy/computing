@@ -36,6 +36,10 @@ import java.nio.file.Paths;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Config.class)
 @TestPropertySource(properties = {
+//        "librairy.columndb.host = zavijava.dia.fi.upm.es",
+//        "librairy.documentdb.host = zavijava.dia.fi.upm.es",
+//        "librairy.graphdb.host = zavijava.dia.fi.upm.es",
+//        "librairy.eventbus.host = zavijava.dia.fi.upm.es",
         "librairy.computing.fs = hdfs://zavijava.dia.fi.upm.es:8020"
 })
 public class HDFSStorageTest {
@@ -61,8 +65,11 @@ public class HDFSStorageTest {
 //        String input = "/Users/cbadenes/Downloads/mesos-0.28.1/build/src/.libs/libmesos-0.28.1.dylib";
 //        String output = "/librairy/lib/libmesos.dylib";
 
-        String input = "/Users/cbadenes/Downloads/spark-1.6.2-bin-hadoop2.6.tgz";
-        String output = "/librairy/lib/spark-1.6.2-bin-hadoop2.6.tgz";
+        String input = "/Users/cbadenes/Downloads/mesos-0.28.1/build/src/.libs/libmesos-0.28.1.so";
+        String output = "/librairy/lib/libmesos.so";
+
+//        String input = "/Users/cbadenes/Downloads/spark-1.6.2-bin-hadoop2.6.tgz";
+//        String output = "/librairy/lib/spark-1.6.2-bin-hadoop2.6.tgz";
 
 
         File file = new File(input);
