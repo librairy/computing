@@ -11,7 +11,7 @@
 
 	<groupId>org.librairy</groupId>
     <artifactId>librairy-computing</artifactId>
-    <version>0.14-SNAPSHOT</version>
+    <version>0.13</version>
     <packaging>jar</packaging>
     <name>computing</name>
     <description>module for cluster computing</description>
@@ -347,7 +347,7 @@
             <plugin>
                 <groupId>com.github.github</groupId>
                 <artifactId>site-maven-plugin</artifactId>
-                <version>0.13-SNAPSHOT</version>
+                <version>0.12</version>
                 <executions>
                     <execution>
                         <id>jar-deploy</id>
