@@ -60,7 +60,7 @@ public class MesosClusterTest {
     public void execution(){
 
         W2VExample task = new W2VExample(sparkHelper, partitioner);
-        task.execute();
+        sparkHelper.execute(task);
 
     }
 

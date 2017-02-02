@@ -25,7 +25,7 @@ public abstract class AbstractSparkHelper implements SparkHelper {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractSparkHelper.class);
 
-    @Value("#{environment['LIBRAIRY_SPARK_MEMORY']?:'-1'}")
+    @Value("#{environment['LIBRAIRY_COMPUTING_MEMORY']?:'${librairy.computing.memory}'}")
     private String sparkMem;
 
     @Value("#{environment['LIBRAIRY_COLUMNDB_HOST']?:'${librairy.columndb.host}'}")
@@ -33,6 +33,9 @@ public abstract class AbstractSparkHelper implements SparkHelper {
 
     @Value("#{environment['LIBRAIRY_COLUMNDB_PORT']?:${librairy.columndb.port}}")
     private String cassandraPort;
+
+    @Value("#{environment['LIBRAIRY_COMPUTING_CORES']?:${librairy.computing.cores}}")
+    protected Integer cores;
 
     protected SparkConf conf;
 

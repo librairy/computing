@@ -22,9 +22,11 @@ public class MesosClusterCondition implements Condition {
     @Override
     public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
         String envVar  = System.getenv("LIBRAIRY_COMPUTING_CLUSTER");
-        return (Strings.isNullOrEmpty(envVar)
-                && conditionContext.getEnvironment().getProperty("librairy.computing.cluster").startsWith("mesos"))
+        String ctxVar = conditionContext.getEnvironment().getProperty("librairy.computing.cluster");
+        boolean condition = (Strings.isNullOrEmpty(envVar)
+                && ctxVar.startsWith("mesos"))
                 ||
                 (!Strings.isNullOrEmpty(envVar) && envVar.startsWith("mesos"));
+        return condition;
     }
 }

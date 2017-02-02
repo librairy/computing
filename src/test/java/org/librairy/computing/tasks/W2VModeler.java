@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016. Universidad Politecnica de Madrid
+ * Copyright (c) 2017. Universidad Politecnica de Madrid
  *
  * @author Badenes Olmedo, Carlos <cbadenes@fi.upm.es>
  *
@@ -23,24 +23,23 @@ import org.librairy.model.domain.resources.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created on 30/08/16:
- *
- * @author cbadenes
+ * @author Badenes Olmedo, Carlos <cbadenes@fi.upm.es>
  */
-public class W2VExample implements Runnable{
+public class W2VModeler implements Runnable{
 
-    private static final Logger LOG = LoggerFactory.getLogger(W2VExample.class);
+    private static final Logger LOG = LoggerFactory.getLogger(W2VModeler.class);
 
     private final SparkHelper sparkHelper;
     private final Partitioner partitioner;
 
-    public W2VExample(SparkHelper sparkHelper, Partitioner partitioner){
+    public W2VModeler(SparkHelper sparkHelper, Partitioner partitioner){
         this.sparkHelper = sparkHelper;
         this.partitioner = partitioner;
     }

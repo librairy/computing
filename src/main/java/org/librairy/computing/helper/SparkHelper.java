@@ -21,4 +21,8 @@ public interface SparkHelper {
 
     JavaSparkContext getContext();
 
+    Boolean execute (Runnable task);
+
+    Integer getPartitions();
+
 }

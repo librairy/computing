@@ -28,9 +28,6 @@ public class SparkClusterHelper extends AbstractSparkHelper {
     @Value("#{environment['LIBRAIRY_COMPUTING_CLUSTER']?:'${librairy.computing.cluster}'}")
     private String master;
 
-    @Value("${librairy.computing.spark.package}")
-    private String sparkPackage;
-
     @Override
     protected String getMaster() {
         return master;
@@ -47,15 +44,19 @@ public class SparkClusterHelper extends AbstractSparkHelper {
         String homePath     = storageHelper.getHome();
         LOG.info("librairy home=" + homePath);
 
-        String sparkPath    = storageHelper.absolutePath(homePath+"lib/"+sparkPackage+".tgz");
-        LOG.info("loading spark binary from: " + sparkPath);
+//        String sparkPath    = storageHelper.absolutePath(homePath+"lib/"+sparkPackage+".tgz");
+//        LOG.info("loading spark binary from: " + sparkPath);
 
         String libPath      = storageHelper.absolutePath(homePath+"lib/librairy-dependencies.jar");
         LOG.info("loading librairy dependencies from: " + libPath);
 
 
         SparkConf auxConf = conf
-                .set("spark.executor.uri", sparkPath)
+//                .set("spark.executor.uri", sparkPath)
+//                .set("spark.driver.memory","24576M")
+//                .set("spark.cores.max","24")
+//                .set("spark.executor.cores","6")
+//                .set("spark.executor.memory","82g")
                 .setJars(new String[]{libPath})
                 ;
 
@@ -63,4 +64,19 @@ public class SparkClusterHelper extends AbstractSparkHelper {
         return auxConf;
     }
 
+    @Override
+    public Boolean execute(Runnable task) {
+        try{
+            task.run();
+        }catch (Exception e){
+            LOG.error("Unexpected error executing task",e);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public Integer getPartitions() {
+        return cores;
+    }
 }

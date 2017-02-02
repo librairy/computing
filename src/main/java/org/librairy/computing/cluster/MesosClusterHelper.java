@@ -118,4 +118,19 @@ public class MesosClusterHelper extends AbstractSparkHelper {
         return auxConf;
     }
 
+    @Override
+    public Boolean execute(Runnable task) {
+        try{
+            task.run();
+        }catch (Exception e){
+            LOG.error("Unexpected error executing task",e);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public Integer getPartitions() {
+        return cores;
+    }
 }
