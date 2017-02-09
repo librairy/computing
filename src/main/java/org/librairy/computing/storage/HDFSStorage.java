@@ -7,6 +7,7 @@
 
 package org.librairy.computing.storage;
 
+import com.google.common.base.Strings;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -50,12 +51,15 @@ public class HDFSStorage extends AbstractStorage {
 
     @Override
     public String path(String domainId, String fileName) {
-        return new StringBuilder()
+        StringBuilder path = new StringBuilder()
                 .append(basedir)
-                .append(domainId)
-                .append("/")
-                .append(fileName)
-                .toString();
+                .append(domainId);
+
+        if (!Strings.isNullOrEmpty(fileName)){
+            path.append("/").append(fileName);
+        }
+
+        return path.toString();
     }
 
     @Override

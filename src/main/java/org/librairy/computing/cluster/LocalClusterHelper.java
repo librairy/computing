@@ -8,14 +8,18 @@
 package org.librairy.computing.cluster;
 
 import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.sql.SQLContext;
+import org.apache.spark.sql.cassandra.CassandraSQLContext;
 import org.librairy.computing.helper.LocalExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cglib.core.Local;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created on 30/08/16:
@@ -24,7 +28,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Conditional(LocalClusterCondition.class)
-public class LocalClusterHelper extends AbstractSparkHelper {
+public class LocalClusterHelper extends AbstractComputingHelper {
 
     private static final Logger LOG = LoggerFactory.getLogger(LocalClusterHelper.class);
 
@@ -33,6 +37,8 @@ public class LocalClusterHelper extends AbstractSparkHelper {
 
     @Autowired
     LocalExecutor executor;
+
+    private ComputingContext context;
 
     @Override
     protected String getMaster() {
@@ -44,12 +50,43 @@ public class LocalClusterHelper extends AbstractSparkHelper {
         return conf;
     }
 
+    @PostConstruct
+    public void setup(){
+        LOG.info("Creating a new Spark Context");
+        this.context = new ComputingContext();
+
+        JavaSparkContext sc = initializeContext("librairy.local");
+        context.setSparkContext(sc);
+        context.setSparkConf(sc.getConf());
+        context.setRecommendedPartitions(getPartitions());
+        context.setSqlContext(new SQLContext(sc));
+        context.setCassandraSQLContext(new CassandraSQLContext(sc.sc()));
+    }
+
     @Override
-    public Boolean execute(Runnable task) {
+    public void close(ComputingContext context) {
+
+    }
+
+    @Override
+    public ComputingContext newContext(String id) {
+        return context;
+    }
+
+    @Override
+    public Boolean execute(ComputingContext context, Runnable task) {
         try{
-            executor.execute(task);
+            executor.execute(() -> {
+                try{
+                    task.run();
+                }catch (Exception e){
+                    LOG.error("Unexpected error during task",e);
+                }finally {
+                    close(context);
+                }
+            });
         }catch (Exception e){
-            LOG.error("Unexpected error executing task",e);
+            LOG.error("Unexpected error on pool executor",e);
             return false;
         }
         return true;

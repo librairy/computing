@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.librairy.computing.Config;
-import org.librairy.computing.helper.SparkHelper;
+import org.librairy.computing.helper.ComputingHelper;
 import org.librairy.computing.tasks.W2VExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +44,7 @@ public class LocalClusterTest {
     private static final Logger LOG = LoggerFactory.getLogger(LocalClusterTest.class);
 
     @Autowired
-    SparkHelper sparkHelper;
+    ComputingHelper computingHelper;
 
     @Autowired
     Partitioner partitioner;
@@ -53,8 +53,10 @@ public class LocalClusterTest {
     @Test
     public void execution(){
 
-        W2VExample task = new W2VExample(sparkHelper, partitioner);
-        sparkHelper.execute(task);
+        ComputingContext computingContext = computingHelper.newContext("w2v.sample");
+
+        W2VExample task = new W2VExample(computingContext, partitioner);
+        computingHelper.execute(computingContext, task);
 
     }
 

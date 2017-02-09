@@ -8,6 +8,7 @@
 package org.librairy.computing.tasks;
 
 import com.google.common.collect.ImmutableMap;
+import lombok.Getter;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.mllib.feature.Word2Vec;
 import org.apache.spark.mllib.feature.Word2VecModel;
@@ -16,8 +17,9 @@ import org.apache.spark.sql.cassandra.CassandraSQLContext;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
+import org.librairy.computing.cluster.ComputingContext;
 import org.librairy.computing.cluster.Partitioner;
-import org.librairy.computing.helper.SparkHelper;
+import org.librairy.computing.helper.ComputingHelper;
 import org.librairy.model.domain.resources.Item;
 import org.librairy.model.domain.resources.Resource;
 import org.slf4j.Logger;
@@ -37,11 +39,12 @@ public class W2VExample implements Runnable{
 
     private static final Logger LOG = LoggerFactory.getLogger(W2VExample.class);
 
-    private final SparkHelper sparkHelper;
+    @Getter
+    private final ComputingContext context;
     private final Partitioner partitioner;
 
-    public W2VExample(SparkHelper sparkHelper, Partitioner partitioner){
-        this.sparkHelper = sparkHelper;
+    public W2VExample(ComputingContext computingContext, Partitioner partitioner){
+        this.context = computingContext;
         this.partitioner = partitioner;
     }
 
@@ -51,7 +54,7 @@ public class W2VExample implements Runnable{
         LocalTime start = LocalTime.now();
 
         // Create a Data Frame from Cassandra query
-        CassandraSQLContext cc = new CassandraSQLContext(sparkHelper.getContext().sc());
+        CassandraSQLContext cc = new CassandraSQLContext(this.context.getSparkContext().sc());
 
         // Define a schema
         StructType schema = DataTypes
@@ -83,7 +86,7 @@ public class W2VExample implements Runnable{
 
         LOG.info("Building a new W2V Model ..");
         Word2Vec word2Vec = new Word2Vec();
-        word2Vec.setNumPartitions(sparkHelper.getPartitions());//1500
+        word2Vec.setNumPartitions(this.context.getRecommendedPartitions());//1500
         word2Vec.setVectorSize(100);
         word2Vec.setNumIterations(5); //5
         Word2VecModel model = word2Vec.fit(input);

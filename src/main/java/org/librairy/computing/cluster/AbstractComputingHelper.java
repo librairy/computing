@@ -9,7 +9,9 @@ package org.librairy.computing.cluster;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.librairy.computing.helper.SparkHelper;
+import org.apache.spark.sql.SQLContext;
+import org.apache.spark.sql.cassandra.CassandraSQLContext;
+import org.librairy.computing.helper.ComputingHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,9 +23,9 @@ import javax.annotation.PostConstruct;
  *
  * @author cbadenes
  */
-public abstract class AbstractSparkHelper implements SparkHelper {
+public abstract class AbstractComputingHelper implements ComputingHelper {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractSparkHelper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractComputingHelper.class);
 
     @Value("#{environment['LIBRAIRY_COMPUTING_MEMORY']?:'${librairy.computing.memory}'}")
     private String sparkMem;
@@ -37,37 +39,28 @@ public abstract class AbstractSparkHelper implements SparkHelper {
     @Value("#{environment['LIBRAIRY_COMPUTING_CORES']?:${librairy.computing.cores}}")
     protected Integer cores;
 
-    protected SparkConf conf;
-
-    protected JavaSparkContext sc;
-
-
-    public JavaSparkContext getContext(){
-        return this.sc;
-    }
-
-    public SparkConf getConf(){
-        return this.conf;
-    }
-
-
     protected abstract String getMaster();
 
+    protected abstract Integer getPartitions();
 
     protected abstract SparkConf initializeConf(SparkConf conf);
 
-    @PostConstruct
-    public void setup(){
+    public abstract void close(ComputingContext context);
+
+    public abstract ComputingContext newContext(String id);
+
+    protected JavaSparkContext initializeContext(String name){
 
         // Initialize Spark Context
         LOG.info("Spark configured at: " + getMaster());
 
         SparkConf auxConf = new SparkConf().
                 setMaster(getMaster()).
-                setAppName("librairy")
-                .set("spark.app.id", "librairy")
+                setAppName(name)
+                .set("spark.app.id", name)
                 .set("spark.cassandra.connection.host", cassandraHost)
                 .set("spark.cassandra.connection.port", cassandraPort)
+                .set("spark.driver.allowMultipleContexts" ,"true")
                 .set("spark.driver.maxResultSize", "0");
 //                .set("spark.executor.extraJavaOptions","-Dcom.sun.management.jmxremote -Dcom.sun.management
 // .jmxremote.port=8095 -Dcom.sun.management.jmxremote.rmi.port=8096 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=138.100.15.128 -Djava.net.preferIPv4Stack=true");
@@ -78,8 +71,9 @@ public abstract class AbstractSparkHelper implements SparkHelper {
         }
 
 
-        this.conf = initializeConf(auxConf);
-        sc = new JavaSparkContext(conf);
+        SparkConf conf = initializeConf(auxConf);
+        JavaSparkContext sc = new JavaSparkContext(conf);
+        return sc;
     }
 
 }

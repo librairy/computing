@@ -12,9 +12,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.librairy.computing.Config;
-import org.librairy.computing.helper.SparkHelper;
+import org.librairy.computing.helper.ComputingHelper;
 import org.librairy.computing.tasks.W2VExample;
-import org.librairy.computing.tasks.W2VModeler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +30,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Config.class)
 @TestPropertySource(properties = {
-        "librairy.columndb.host = zavijava.dia.fi.upm.es",
-        "librairy.documentdb.host = zavijava.dia.fi.upm.es",
-        "librairy.graphdb.host = zavijava.dia.fi.upm.es",
+        "librairy.columndb.host = wiig.dia.fi.upm.es",
+        "librairy.documentdb.host = wiig.dia.fi.upm.es",
+        "librairy.graphdb.host = wiig.dia.fi.upm.es",
         "librairy.eventbus.host = local",
         "librairy.computing.cluster=spark://minetur.dia.fi.upm.es:7077",
         "librairy.computing.fs=hdfs://minetur.dia.fi.upm.es:9000",
@@ -49,7 +48,7 @@ public class SparkClusterTest {
     private static final Logger LOG = LoggerFactory.getLogger(SparkClusterTest.class);
 
     @Autowired
-    SparkHelper sparkHelper;
+    ComputingHelper computingHelper;
 
     @Autowired
     Partitioner partitioner;
@@ -58,9 +57,11 @@ public class SparkClusterTest {
     @Test
     public void execution(){
 
+        ComputingContext computingContext = computingHelper.newContext("w2v.sample");
+
         LOG.info("executing w2v");
-        W2VExample task = new W2VExample(sparkHelper, partitioner);
-        sparkHelper.execute(task);
+        W2VExample task = new W2VExample(computingContext, partitioner);
+        computingHelper.execute(computingContext, task);
 
     }
 
