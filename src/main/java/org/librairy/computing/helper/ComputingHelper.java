@@ -16,7 +16,7 @@ import org.librairy.computing.cluster.ComputingContext;
  */
 public interface ComputingHelper {
 
-    ComputingContext newContext(String id);
+    ComputingContext newContext(String id) throws InterruptedException;
 
     Boolean execute (ComputingContext context, Runnable task);
 

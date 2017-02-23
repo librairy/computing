@@ -98,7 +98,7 @@ public class SparkClusterHelper extends AbstractComputingHelper {
     }
 
     @Override
-    public ComputingContext newContext(String id) {
+    public synchronized ComputingContext newContext(String id) throws InterruptedException {
         waitForAvailableContexts();
 
         LOG.info("Creating a new Spark Context for '" + id + "'");
@@ -115,15 +115,11 @@ public class SparkClusterHelper extends AbstractComputingHelper {
 
     }
 
-    private void waitForAvailableContexts(){
+    private void waitForAvailableContexts() throws InterruptedException {
         while(concurrentContexts.get() > 0){
-            try {
-                int delay = random.nextInt(5)+2;
-                LOG.debug("waiting " + delay + "secs for stop an active spark context");
-                Thread.sleep(delay*1000);
-            } catch (InterruptedException e) {
-                LOG.warn("interrupted thread waiting for available spark context");
-            }
+            int delay = random.nextInt(5)+2;
+            LOG.debug("waiting " + delay + "secs for stop an active spark context");
+            Thread.sleep(delay*1000);
         }
 
         concurrentContexts.incrementAndGet();

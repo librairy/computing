@@ -53,10 +53,15 @@ public class LocalClusterTest {
     @Test
     public void execution(){
 
-        ComputingContext computingContext = computingHelper.newContext("w2v.sample");
+        ComputingContext computingContext = null;
+        try {
+            computingContext = computingHelper.newContext("w2v.sample");
+            W2VExample task = new W2VExample(computingContext, partitioner);
+            computingHelper.execute(computingContext, task);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        W2VExample task = new W2VExample(computingContext, partitioner);
-        computingHelper.execute(computingContext, task);
 
     }
 

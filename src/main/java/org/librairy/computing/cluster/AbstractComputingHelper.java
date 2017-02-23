@@ -47,7 +47,7 @@ public abstract class AbstractComputingHelper implements ComputingHelper {
 
     public abstract void close(ComputingContext context);
 
-    public abstract ComputingContext newContext(String id);
+    public abstract ComputingContext newContext(String id) throws InterruptedException;
 
     protected JavaSparkContext initializeContext(String name){
 

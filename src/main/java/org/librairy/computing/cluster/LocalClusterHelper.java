@@ -94,6 +94,6 @@ public class LocalClusterHelper extends AbstractComputingHelper {
 
     @Override
     public Integer getPartitions() {
-        return Runtime.getRuntime().availableProcessors();
+        return Runtime.getRuntime().availableProcessors()*2;
     }
 }

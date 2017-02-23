@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -75,7 +76,11 @@ public class LocalFSStorage extends AbstractStorage {
     public boolean create(String path) {
         try {
             Path folder = Paths.get(path);
-            Files.createDirectories(folder);
+            try{
+                Files.createDirectories(folder);
+            }catch (AccessDeniedException e){
+                folder.toFile().mkdirs();
+            }
             return true;
         } catch (IOException e) {
             LOG.warn("Error deleting/creating folder at: " + path,e);

@@ -57,11 +57,15 @@ public class SparkClusterTest {
     @Test
     public void execution(){
 
-        ComputingContext computingContext = computingHelper.newContext("w2v.sample");
-
-        LOG.info("executing w2v");
-        W2VExample task = new W2VExample(computingContext, partitioner);
-        computingHelper.execute(computingContext, task);
+        ComputingContext computingContext = null;
+        try {
+            computingContext = computingHelper.newContext("w2v.sample");
+            LOG.info("executing w2v");
+            W2VExample task = new W2VExample(computingContext, partitioner);
+            computingHelper.execute(computingContext, task);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
