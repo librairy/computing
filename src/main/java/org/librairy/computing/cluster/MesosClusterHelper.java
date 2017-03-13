@@ -128,67 +128,6 @@ public class MesosClusterHelper extends AbstractComputingHelper {
         return auxConf;
     }
 
-    @Override
-    public Boolean execute(ComputingContext context , Runnable task) {
-        try{
-            task.run();
-        }catch (Exception e){
-            LOG.error("Unexpected error executing task",e);
-            return false;
-        }finally {
-            close(context);
-        }
-        return true;
-    }
-
-    public void close(ComputingContext context){
-        try{
-            LOG.info("Stopping spark context '" + context.getSparkConf().getAppId() + "' ..");
-            context.getSparkContext().stop();
-            context.getSparkContext().close();
-            LOG.info("Spark context '" + context.getSparkConf().getAppId() + "' closed");
-        }catch (Exception e){
-            LOG.warn("Error stopping spark context", e);
-        }finally {
-            int currentValue = concurrentContexts.decrementAndGet();
-            if (currentValue > 0){
-                LOG.warn("Current spark contexts greater than 1: '"+ currentValue + "'");
-                concurrentContexts.set(0);
-            }
-        }
-    }
-
-    @Override
-    public ComputingContext newContext(String id) {
-        waitForAvailableContexts();
-
-        LOG.info("Creating a new Spark Context for '" + id + "'");
-        ComputingContext computingContext = new ComputingContext();
-
-        JavaSparkContext sc = initializeContext("librairy." + id);
-        computingContext.setSparkContext(sc);
-        computingContext.setSparkConf(sc.getConf());
-        computingContext.setRecommendedPartitions(getPartitions());
-        computingContext.setSqlContext(new SQLContext(sc));
-        computingContext.setCassandraSQLContext(new CassandraSQLContext(sc.sc()));
-
-        return computingContext;
-
-    }
-
-    private void waitForAvailableContexts(){
-        while(concurrentContexts.get() > 0){
-            try {
-                int delay = random.nextInt(5)+2;
-                LOG.debug("waiting " + delay + "secs for stop an active spark context");
-                Thread.sleep(delay*1000);
-            } catch (InterruptedException e) {
-                LOG.warn("interrupted thread waiting for available spark context");
-            }
-        }
-
-        concurrentContexts.incrementAndGet();
-    }
 
     @Override
     public Integer getPartitions() {

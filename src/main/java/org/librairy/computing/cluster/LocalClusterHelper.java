@@ -35,11 +35,6 @@ public class LocalClusterHelper extends AbstractComputingHelper {
     @Value("#{environment['LIBRAIRY_COMPUTING_CLUSTER']?:'${librairy.computing.cluster}'}")
     private String master;
 
-    @Autowired
-    LocalExecutor executor;
-
-    private ComputingContext context;
-
     @Override
     protected String getMaster() {
         return master;
@@ -48,48 +43,6 @@ public class LocalClusterHelper extends AbstractComputingHelper {
     @Override
     protected SparkConf initializeConf(SparkConf conf) {
         return conf;
-    }
-
-    @PostConstruct
-    public void setup(){
-        LOG.info("Creating a new Spark Context");
-        this.context = new ComputingContext();
-
-        JavaSparkContext sc = initializeContext("librairy.local");
-        context.setSparkContext(sc);
-        context.setSparkConf(sc.getConf());
-        context.setRecommendedPartitions(getPartitions());
-        context.setSqlContext(new SQLContext(sc));
-        context.setCassandraSQLContext(new CassandraSQLContext(sc.sc()));
-    }
-
-    @Override
-    public void close(ComputingContext context) {
-
-    }
-
-    @Override
-    public ComputingContext newContext(String id) {
-        return context;
-    }
-
-    @Override
-    public Boolean execute(ComputingContext context, Runnable task) {
-        try{
-            executor.execute(() -> {
-                try{
-                    task.run();
-                }catch (Exception e){
-                    LOG.error("Unexpected error during task",e);
-                }finally {
-                    close(context);
-                }
-            });
-        }catch (Exception e){
-            LOG.error("Unexpected error on pool executor",e);
-            return false;
-        }
-        return true;
     }
 
     @Override

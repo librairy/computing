@@ -17,11 +17,9 @@ import org.apache.spark.sql.cassandra.CassandraSQLContext;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
+import org.librairy.boot.model.domain.resources.Resource;
 import org.librairy.computing.cluster.ComputingContext;
 import org.librairy.computing.cluster.Partitioner;
-import org.librairy.computing.helper.ComputingHelper;
-import org.librairy.model.domain.resources.Item;
-import org.librairy.model.domain.resources.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,8 +57,8 @@ public class W2VExample implements Runnable{
         // Define a schema
         StructType schema = DataTypes
                 .createStructType(new StructField[] {
-                        DataTypes.createStructField(Resource.URI, DataTypes.StringType, false),
-                        DataTypes.createStructField(Item.CONTENT, DataTypes.StringType, false)
+                        DataTypes.createStructField("uri", DataTypes.StringType, false),
+                        DataTypes.createStructField("content", DataTypes.StringType, false)
                 });
 
         DataFrame df = cc
