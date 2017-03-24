@@ -3,10 +3,10 @@
   <groupId>org.librairy</groupId>
   <artifactId>librairy-computing</artifactId>
   <versioning>
-    <release>0.16</release>
+    <release>0.17</release>
     <versions>
-      <version>0.16</version>
+      <version>0.17</version>
     </versions>
-    <lastUpdated>20170313135947</lastUpdated>
+    <lastUpdated>20170324123059</lastUpdated>
   </versioning>
 </metadata>
