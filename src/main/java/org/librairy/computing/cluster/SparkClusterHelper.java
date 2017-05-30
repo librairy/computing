@@ -9,6 +9,7 @@ package org.librairy.computing.cluster;
 
 import org.apache.spark.SparkConf;
 import org.librairy.computing.helper.StorageHelper;
+import org.librairy.computing.storage.HDFSStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +48,19 @@ public class SparkClusterHelper extends AbstractComputingHelper {
         String libPath      = storageHelper.absolutePath(homePath+"lib/librairy-dependencies.jar");
         LOG.info("loading librairy dependencies from: " + libPath);
 
+        String cloneConf =  (storageHelper instanceof HDFSStorage)? "true" : "false";
 
         SparkConf auxConf = conf
+                .set("spark.cores.max", String.valueOf(cores))
+                .set("spark.driver.cores", "2")
+//                .set("spark.reducer.maxSizeInFlight", "512m")
+//                .set("spark.shuffle.file.buffer", "48m")
+//                .set("spark.shuffle.compress", "false")
+//                .set("spark.shuffle.spill.compress", "false")
+//                .set("spark.broadcast.compress","false")
+//                .set("spark.default.parallelism",String.valueOf(cores) )
+                .set("spark.files.overwrite", "true")
+                .set("spark.hadoop.cloneConf", cloneConf)
                 .setJars(new String[]{libPath})
                 ;
         return auxConf;
