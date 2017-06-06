@@ -30,14 +30,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Config.class)
 @TestPropertySource(properties = {
-        "librairy.columndb.host = wiig.dia.fi.upm.es",
-        "librairy.documentdb.host = wiig.dia.fi.upm.es",
-        "librairy.graphdb.host = wiig.dia.fi.upm.es",
-        "librairy.eventbus.host = local",
         "librairy.computing.cluster=spark://minetur.dia.fi.upm.es:7077",
         "librairy.computing.fs=hdfs://minetur.dia.fi.upm.es:9000",
-        "librairy.computing.cores=120",
-        "librairy.computing.memory=64g"
+        "librairy.computing.cores=12",
+        "librairy.computing.memory=8g"
 })
 public class SparkClusterTest {
 

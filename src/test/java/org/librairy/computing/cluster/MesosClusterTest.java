@@ -30,13 +30,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Config.class)
 @TestPropertySource(properties = {
-        "librairy.columndb.host = wiener.dia.fi.upm.es",
-//        "librairy.columndb.port = 5011",
-        "librairy.documentdb.host = wiener.dia.fi.upm.es",
-//        "librairy.documentdb.port = 5021",
-        "librairy.graphdb.host = wiener.dia.fi.upm.es",
-//        "librairy.graphdb.port = 5030",
-        "librairy.eventbus.host = local",
         "librairy.computing.cluster=mesos://zavijava.dia.fi.upm.es:5050",
         "librairy.computing.fs=hdfs://zavijava.dia.fi.upm.es:8020"
 //        "librairy.computing.spark.path=/opt/mesos/spark/installation/current"

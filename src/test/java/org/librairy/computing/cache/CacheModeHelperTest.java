@@ -7,7 +7,6 @@
 
 package org.librairy.computing.cache;
 
-import org.apache.spark.api.java.StorageLevels;
 import org.apache.spark.storage.StorageLevel;
 import org.junit.Test;
 

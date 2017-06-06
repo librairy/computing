@@ -29,15 +29,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @Category(IntegrationTest.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Config.class)
-@TestPropertySource(properties = {
-        "librairy.columndb.host = wiener.dia.fi.upm.es",
-        "librairy.columndb.port = 5011",
-        "librairy.documentdb.host = wiener.dia.fi.upm.es",
-        "librairy.documentdb.port = 5021",
-        "librairy.graphdb.host = wiener.dia.fi.upm.es",
-        "librairy.graphdb.port = 5030",
-        "librairy.eventbus.host = local"
-})
+//@TestPropertySource(properties = {
+//        "librairy.columndb.host = wiener.dia.fi.upm.es",
+//        "librairy.columndb.port = 5011",
+//        "librairy.documentdb.host = wiener.dia.fi.upm.es",
+//        "librairy.documentdb.port = 5021",
+//        "librairy.graphdb.host = wiener.dia.fi.upm.es",
+//        "librairy.graphdb.port = 5030",
+//        "librairy.eventbus.host = local"
+//})
 public class LocalClusterTest {
 
 
