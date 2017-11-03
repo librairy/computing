@@ -11,7 +11,6 @@ import es.cbadenes.lab.test.IntegrationTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.librairy.boot.storage.generator.URIGenerator;
 import org.librairy.computing.Config;
 import org.librairy.computing.helper.StorageHelper;
 import org.slf4j.Logger;
@@ -50,9 +49,6 @@ public class HDFSStorageTest {
 
     @Autowired
     StorageHelper storageHelper;
-
-    @Autowired
-    URIGenerator uriGenerator;
 
     @Test
     public void save(){

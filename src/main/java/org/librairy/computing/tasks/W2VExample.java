@@ -17,7 +17,6 @@ import org.apache.spark.sql.cassandra.CassandraSQLContext;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
-import org.librairy.boot.model.domain.resources.Resource;
 import org.librairy.computing.cluster.ComputingContext;
 import org.librairy.computing.cluster.Partitioner;
 import org.slf4j.Logger;
